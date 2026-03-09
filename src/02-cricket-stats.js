@@ -1,3 +1,5 @@
+import { run } from "jest";
+
 /**
  * 🏏 Cricket Player Stats Dashboard
  *
@@ -35,24 +37,46 @@
  *   calcStrikeRate(45, 30)  // => 150
  *   calcEconomy(24, 4)      // => 6
  *   getPlayerCard({ name: "Jadeja", runs: 35, balls: 20, totalRuns: 2000, innings: 80, notOuts: 10, runsConceded: 1500, overs: 200 })
- *   // => { name: "Jadeja", strikeRate: 175, economy: 7.5, battingAvg: 28.57, isAllRounder: false }
+//  *   // => { name: "Jadeja", strikeRate: 175, economy: 7.5, battingAvg: 28.57, isAllRounder: false }
  */
 export const calcStrikeRate = (runs, balls) => {
   // Your code here
+
+  if(runs<0 || balls<=0) return 0;
+  const strikeRate= Number(((runs / balls) * 100).toFixed(2));
+  return strikeRate
+
 };
 
 export const calcEconomy = (runsConceded, overs) => {
   // Your code here
+
+  if(overs<=0 || runsConceded<0) return 0
+  return Number((runsConceded / overs).toFixed(2));
 };
 
 export const calcBattingAvg = (totalRuns, innings, notOuts = 0) => {
   // Your code here
+  if(innings -notOuts <=0) return 0
+  return +((totalRuns/(innings-notOuts)).toFixed(2))
 };
 
 export const isAllRounder = (battingAvg, economy) => {
   // Your code here
+ return battingAvg>30 && economy<8 
 };
 
 export const getPlayerCard = (player) => {
   // Your code here
+
+  if(!player || !player.hasOwnProperty('name')) return null
+ 
+  const strikeRate=calcStrikeRate(player.runs,player.balls);
+  const economy=calcEconomy(player.runsConceded,player.overs) ;
+  const battingAvg=calcBattingAvg(player.totalRuns,player.innings,player.notOuts)  ;
+  const isAllRounder1= isAllRounder(battingAvg,economy)
+  return {name:player?.name,strikeRate,economy,battingAvg,isAllRounder:isAllRounder1
+  
+  
+  }
 };

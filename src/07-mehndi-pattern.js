@@ -54,20 +54,93 @@
  */
 export function repeatChar(char, n) {
   // Your code here
+if(!char || typeof char !=='string'|| n<=0) return '';
+  if(n===1) return char;
+ return char +repeatChar( char ,n-1) 
+
+
 }
 
 export function sumNestedArray(arr) {
   // Your code here
+
+  if(!Array.isArray(arr) || arr.length ===0) return 0;
+  
+ return arr.reduce((acc,item)=>{
+
+    if(Array.isArray(item)){
+      return acc+ sumNestedArray(item)
+    }
+
+    if(typeof item === 'number'){
+   return  acc+item
+    }
+    return acc
+  },0)
+
+
+
+
 }
 
 export function flattenArray(arr) {
   // Your code here
+
+  if(!Array.isArray(arr)) return [];
+  return arr.reduce((acc,item)=>{
+
+    if(Array.isArray(item)){
+      return acc.concat(flattenArray(item))
+    }
+    // if(typeof item ==='number'){
+    //   // return acc.push(item)
+    //  return acc.concat(item);
+    // }
+     
+ return acc.concat(item);
+
+  },[])
+
+
 }
 
 export function isPalindrome(str) {
   // Your code here
+  if(typeof str !=='string') return false;
+  if(str.length <=1) return true
+
+  if(str[0].toLowerCase() !==str[str.length-1].toLowerCase()) return false;
+
+  return isPalindrome(str.slice(1,-1))
+
+
+
 }
 
 export function generatePattern(n) {
   // Your code here
+
+  if(n<=0) return []
+  if( typeof n !== 'number' || !Number.isInteger(n) || n<=0 ) return [];
+
+ 
+  function buildStarPattern(i){
+    let starsPattern='*'.repeat(i);
+
+    if(i===n){
+      return [starsPattern];
+    }
+
+   let insidepattern=buildStarPattern(i+1);
+
+   return [starsPattern,...insidepattern,starsPattern]
+
+
+  }
+  
+  
+return  buildStarPattern(1)
+
+
+
 }

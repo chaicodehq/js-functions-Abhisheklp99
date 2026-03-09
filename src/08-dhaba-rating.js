@@ -46,16 +46,119 @@
  */
 export function createFilter(field, operator, value) {
   // Your code here
+
+  if(![ ">", "<", ">=", "<=", "==="].includes(operator)) return ()=>{return false};
+
+  return (obj)=>{
+     const val = obj[field];
+    if (val == null) return false;
+
+    if(operator==='<'){
+
+      return val < value   
+    }
+    else if(operator==='>'){
+
+      return val > value   
+    }
+    else if(operator==='>='){
+      return val >= value   
+      
+    }
+    else if(operator==='<='){
+      return val <= value   
+      
+    }
+    else {
+      return val === value   
+
+    }
+  }
+
+
 }
 
 export function createSorter(field, order = "asc") {
   // Your code here
+
+  // if(order.toLowerCase() ==='asc'){
+
+  //   return (a,b)=>{
+  //     const val1=a[field];
+  //     const val2=b[field];
+  //     if(!val1) return -1;
+  //     if(!val2) return -1;
+  //     return val1 -val2
+  //   }
+    
+    
+  // }
+  // else if(order.toUpperCase() ==='desc'){
+    
+    
+  //   return (a,b)=>{
+  //     const val1=a[field];
+  //     const val2=b[field];
+  //     if(!val1) return -1;
+  //     if(!val2) return -1;
+  //     return val2 -val1
+  //   }
+
+
+  // }
+  // else {
+    
+  // }
+
+  
+ const isAscTrue= order.toLowerCase() === "asc";
+  
+  return (a, b) => {
+    const val1 = a[field];
+    const val2 = b[field];
+    
+
+    if (val1 == null) return 1;
+    if (val2 == null) return -1;
+    
+    if (isAscTrue) {
+      return val1 > val2 ? 1 : val1 < val2 ? -1 : 0;
+    } else {
+      return val2 > val1 ? 1 : val2 < val1 ? -1 : 0;
+    }
+  };
+
 }
 
 export function createMapper(fields) {
   // Your code here
+return (obj)=>{
+ return fields.reduce((acc,item)=>{
+
+  if(item in obj){
+    acc[item] =obj[item]
+  }
+return acc
+ },{})
+}
+  
+
+
 }
 
 export function applyOperations(data, ...operations) {
   // Your code here
+
+  if(!Array.isArray(data)) return [];
+  let res=data
+// for(let i=0;i<operations.length;i++){
+//   res.push(operations[i](data))
+// }
+// return res
+for(let i=0;i<operations.length;i++){
+  res=operations[i](res)
+}
+return res
+
+
 }

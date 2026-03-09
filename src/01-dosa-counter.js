@@ -33,4 +33,39 @@
  */
 export function calculateDosaOrder(type, quantity = 1, isSpicy = false) {
   // Your code here
+
+  if(typeof type !=='string' || type ==='' || type ==='unknown' || isNaN(quantity) || quantity<=0) return null
+
+  let pricePerDosa=0;
+  const dosaType = {
+  plain: 40,
+  masala: 60,
+  onion: 50,
+  butter: 70,
+  paper: 90,
+  cheese: 80
+};
+
+if(Object.keys(dosaType).includes(type.toLowerCase())){
+  
+  pricePerDosa=isSpicy? 10 + dosaType[type.toLowerCase()]:dosaType[type.toLowerCase()];
+}else{
+  return null
+}
+
+  
+
+
+  return {type,quantity,pricePerDosa,"total": pricePerDosa*quantity}
+
+
+
+
+
+
+
+
+
+
+
 }
